@@ -1,0 +1,12 @@
+.posts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  width: 60%;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .posts-container {
+    width: 100%;
+  }
+}

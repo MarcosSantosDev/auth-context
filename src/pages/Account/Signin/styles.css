@@ -1,0 +1,57 @@
+:root {
+  --signin-container-bg-color: #fa430890;
+  --general-border-color: #fac08e;
+  --general-bg-color: #fac05e38;
+  --general-color: #FFF;
+}
+
+.signin-container {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(320px, 600px);
+  grid-template-rows: 100px 200px;
+  margin: 0 auto;
+  padding-top: calc(100vh - 600px);
+  max-width: 600px;
+  height: 100vh;
+  background-color: var(--signin-container-bg-color);
+  text-align: center;
+}
+
+.signin-container h1 {
+  color: var(--general-color);
+}
+
+.signin-container form {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: calc(100% - 100px);
+}
+
+.signin-container input, button {
+  margin: 10px 0px
+}
+
+.signin-container input {
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 20px;
+  font-size: 20px;
+  outline: none;
+  border-radius: 50px;
+  border: 0.1em solid var(--general-border-color);
+  background-color: var(--general-bg-color);
+  color: var(--general-color);
+}
+
+.signin-container button {
+  cursor: pointer;
+  height: 40px;
+  font-size: 20px;
+  font-weight: 800;
+  border: none;
+  border-radius: 50px;
+  background-color: var(--general-bg-color);
+  color: var(--general-color);
+}

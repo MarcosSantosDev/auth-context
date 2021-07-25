@@ -1,0 +1,22 @@
+.card {
+  background-color: #882c3490;
+  border-bottom: 5px solid #882c34;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 400ms ease-in-out;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-title {
+  color: #ffffffe4;
+}
+
+.card-description {
+  color: #ffffffe4;
+}
