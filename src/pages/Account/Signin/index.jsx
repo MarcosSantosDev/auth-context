@@ -46,13 +46,15 @@ function Signin() {
   }, [isAuth, history])
 
   return (
-    <div className="signin-container">
-      <h1>Sign In</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="email" name="email" onChange={handleChange} />
-        <input type="password" name="password" onChange={handleChange} autoComplete="off" />
-        <button>Sign In</button>
-      </form>
+    <div className="container">
+      <div className="signin-container">
+        <h1>Sign In</h1>
+        <form onSubmit={handleSubmit}>
+          <input type="email" name="email" onChange={handleChange} />
+          <input type="password" name="password" onChange={handleChange} autoComplete="off" />
+          <button>Sign In</button>
+        </form>
+      </div>
     </div>
   );
 }

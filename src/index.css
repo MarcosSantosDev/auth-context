@@ -1,3 +1,10 @@
+:root {
+  --signin-container-bg-color: #fa430890;
+  --general-border-color: #fac08e;
+  --general-bg-color: #fac05e38;
+  --general-color: #FFF;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
