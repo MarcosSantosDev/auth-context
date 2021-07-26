@@ -1,34 +1,32 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useHistory } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
-import './styles.css';
+import "./styles.css";
 
-import { AuthContext } from '../../../context/AuthProvider/context'
-import { loginHandler } from '../../../context/AuthProvider/actions'
-import { isAuthenticated } from '../../../helpers/authFunctions'
+import { AuthContext } from "../../../context/AuthProvider/context";
+import { loginHandler } from "../../../context/AuthProvider/actions";
 
 function Signin() {
   const [form, setForm] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
-  
+
   const history = useHistory();
 
-  const { dispatchAuthState } = useContext(AuthContext)
-  const isAuth = isAuthenticated();
+  const { authState, dispatchAuthState } = useContext(AuthContext);
 
   const handleLogin = (email, password) => {
-    loginHandler(dispatchAuthState, { email, password })
-  }
- 
+    loginHandler(dispatchAuthState, { email, password });
+  };
+
   const handleChange = (event) => {
     event.preventDefault();
     setForm((form) => ({
       ...form,
-      [event.target.name]: event.target.value
-    }))
-  }
+      [event.target.name]: event.target.value,
+    }));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -40,10 +38,12 @@ function Signin() {
   };
 
   useEffect(() => {
-    if (isAuth) {
-      history.push('/')
+    const isAuthenticated = authState.auth.isAuthenticated;
+
+    if (isAuthenticated) {
+      history.push("/");
     }
-  }, [isAuth, history])
+  }, [authState.auth.isAuthenticated, history]);
 
   return (
     <div className="container">
@@ -51,7 +51,12 @@ function Signin() {
         <h1>Sign In</h1>
         <form onSubmit={handleSubmit}>
           <input type="email" name="email" onChange={handleChange} />
-          <input type="password" name="password" onChange={handleChange} autoComplete="off" />
+          <input
+            type="password"
+            name="password"
+            onChange={handleChange}
+            autoComplete="off"
+          />
           <button>Sign In</button>
         </form>
       </div>

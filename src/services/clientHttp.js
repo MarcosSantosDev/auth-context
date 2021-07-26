@@ -1,38 +1,81 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
-import { isAuthenticated, TOKEN_KEY } from '../helpers/authFunctions';
+import {
+  isAuthenticated,
+  getRefreshToken,
+  getToken,
+  saveToken,
+  saveRefreshToken
+} from '../helpers/authFunctions'
 
-const clientHttp = (
-  baseURL = process.env.REACT_APP_API_BASE_URL,
-  responseType = 'json',
-  ...configAxios
-) => {
-  const instance = axios.create({
-    baseURL,
-    responseType,
-    timeout: 5000,
-    ...configAxios
+const refreshToken = async () => {
+  try {
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_API_BASE_URL,
+      responseType: 'json',
+      timeout: 10000
+    });
+
+    const refreshTokenValue = getRefreshToken()
+
+    const configuration = {
+      data: {
+        grant_type: 'refresh_token',
+        refresh_token: refreshTokenValue,
+      }
+    }
+
+    const response = await axiosInstance.post('refresh', configuration.data);
+
+    if (response) {
+      const responseData = response.data;
+  
+      saveToken(responseData.token);
+      saveRefreshToken(responseData.refreshToken);
+    }
+
+    return Promise.resolve(response);
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+const handleTokenLifecycle = async () => {
+  const refreshTokenValue = getRefreshToken();
+
+  if (!isAuthenticated() && refreshTokenValue) {
+    await refreshToken();
+  }
+}
+
+const clientHttp = () => {
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_API_BASE_URL,
+    responseType: 'json',
+    timeout: 10000
   });
 
-  const rejectPromise = (error) => Promise.reject(error);
-
-  instance.interceptors.request.use((config) => {
+  axiosInstance.interceptors.request.use(async (config) => {
     const configuration = config;
 
     if (isAuthenticated()) {
       configuration.headers = {
-        Authorization: `Bearer ${Cookies.get(TOKEN_KEY)}`,
+        Authorization: `Bearer ${getToken()}`,
       };
     }
 
+    await handleTokenLifecycle();
+
     return Promise.resolve(config);
-  }, rejectPromise);
+  },
+  (error) => Promise.reject(error));
 
+  axiosInstance.interceptors.response.use(
+    (response) => response,
+    (error) => Promise.reject(error),
+  );
 
-  instance.interceptors.response.use((config) => config, rejectPromise);
-
-  return instance;
+  return axiosInstance;
 }
 
 export default clientHttp;

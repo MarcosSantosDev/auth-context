@@ -1,7 +1,9 @@
-import clientHttp from '../../services/clientHttp'
+import axios from 'axios'
 import * as types from './types'
 
-const clientApi = clientHttp('https://jsonplaceholder.typicode.com');
+const clientApi = axios.create({
+  baseURL: 'https://jsonplaceholder.typicode.com'
+});
 
 export const loadPosts = async (dispatch) => {
     dispatch({ type: types.POST_LOADING });

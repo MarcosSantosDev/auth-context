@@ -48,33 +48,29 @@ function PrivateRoute({ children, ...rest }) {
 
 const RouteWrapper = ({ children, isPrivate, ...props }) => {
   if (isPrivate) {
-    return (
-      <AuthProvider>
-        <PrivateRoute {...props}>
-          {children}
-        </PrivateRoute>
-      </AuthProvider>
-    );
+    return <PrivateRoute {...props}>{children}</PrivateRoute>;
   }
 
-  return (
-    <Route {...props}>
-      <AuthProvider>{children}</AuthProvider>
-    </Route>
-  );
+  return <Route {...props}>{children}</Route>;
 };
 
-const Routes = () => (
-  <Router>
-    <Switch>
-      <RouteWrapper exact path="/signin">
-        <Signin />
-      </RouteWrapper>
-      <RouteWrapper exact path="/" isPrivate>
-        <PostWrapper />
-      </RouteWrapper>
-    </Switch>
-  </Router>
-);
+const Routes = () => {
+  return (
+    <div>
+      <AuthProvider>
+        <Router>
+          <Switch>
+            <RouteWrapper exact path="/signin">
+              <Signin />
+            </RouteWrapper>
+            <RouteWrapper exact path="/" isPrivate>
+              <PostWrapper />
+            </RouteWrapper>
+          </Switch>
+        </Router>
+      </AuthProvider>
+    </div>
+  );
+};
 
 export default Routes;
